@@ -1,0 +1,281 @@
+  <!DOCTYPE html>
+  <html>
+
+  <body>
+
+
+    <div id="header">
+      <div class="container">
+        <nav>
+          <img src="../static/assets/logo.png" class="logo">
+          <ul>
+            <li><a href="{{url_for('home2')}}">Home</a></li>
+              <li><a href="{{url_for('about')}}">About</a></li>
+            <li><a href="{{url_for('questions')}}">Questions</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+
+
+
+
+    <!-----------------------------minigames----------------------------->
+    <div id="minigames">
+      <div class="container">
+        <div class="row">
+          <div class="minigame-col-1">
+            <!-- Replace the image source with your minigame image -->
+            <img src="../static/assets/minigamelogo.png" alt="">
+          </div>
+          <div class="minigame-col-2">
+            <h1 class="minigame-title">Explore Minigames</h1>
+
+            <div class="minigame-titles">
+              <p class="minigame-links active-link" onclick="opentab('minigame1')">Guessing Game</p>
+              <p class="minigame-links" onclick="opentab('minigame2')">Tic-Tac-Toe Game</p>
+
+            </div>
+
+            <div class="minigame-contents active-tab" id="minigame1">
+              <ul>
+                <li><span>Description</span><br> an interactive and entertaining activity where a player attempts to identify a concealed number within a predefined range. The player makes successive guesses, and the game provides feedback such as "too high" or "too low" until the correct number is identified, creating an engaging experience that promotes logical thinking and numerical intuition</li>
+                <li><span>Objective</span><br> correctly guess a hidden number within a specified range.</li>
+              </ul>
+              <br>
+               <button class="play-button" onclick="playGuessingGame()">Play Guessing Game</button>
+            </div>
+            </div>
+
+            <div class="minigame-contents" id="minigame2">
+              <ul>
+                <li><span>Description</span><br>Also called as Xs and Os, is a game for player/s taking turns marking the spaces in a 3x3 grid with X or O.</li>
+                <li><span>Rules</span><br>The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. If all cells are filled, and no player has three in a row, the game is a tie/draw</li>
+              </ul>
+              <br>
+               <button class="play-button" onclick="playTicTacToeGame()">Play Tic-Tac-Toe Game</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+  <script>
+
+     function playGuessingGame() {
+      // Redirect to index.html when the button is clicked
+      window.location.href = '{{ url_for("guessinggame") }}';
+    }
+
+     function playTicTacToeGame() {
+      // Redirect to index.html when the button is clicked
+      window.location.href = '{{ url_for("tic_tac_toe_game") }}';
+    }
+
+
+    var minigamelinks = document.getElementsByClassName("minigame-links");
+      var minigamecontents = document.getElementsByClassName("minigame-contents");
+
+      function opentab(tabname) {
+        for (minigamelink of minigamelinks) {
+          minigamelink.classList.remove("active-link");
+        }
+        for (minigamecontent of minigamecontents) {
+          minigamecontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+      }
+
+  </script>
+  </body>
+  </html>
+
+  <style type="text/css">
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+    }
+
+
+
+    .container {
+      padding: 10px 10%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 140px;
+
+      }
+
+
+    .play-button {
+      background-color: #ff004f;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 50%; /* Set border-radius to 50% for a circular shape */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .play-button:hover {
+      background-color: #d90045;
+    }
+
+
+
+  .eye-container {
+      text-align: center;
+    }
+  .eye {
+      width: 500px;
+
+
+    }
+    nav ul li {
+      display: inline-block;
+      list-style: none;
+      margin: 10px 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      width: 0%;
+      height: 3px;
+      background: #ff004f;
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      transition: 0.5s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .system-description {
+      margin-top: 50px;
+    }
+
+    .system-description h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #ff004f;
+    }
+
+    .system-description p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+      /*-----------------------------MINIGAME-----------------------------*/
+
+     #minigames {
+        padding: 100px 0;
+        color: #ababab;
+      }
+
+
+      .minigame-col-1 {
+        flex-basis: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .minigame-col-1 img {
+      width: 25%; /* You can adjust the width as needed */
+      max-width: 100%; /* Ensure the image does not exceed its original size */
+      height: auto; /* Maintain the aspect ratio */
+      border-radius: 15px;
+      }
+
+      .minigame-col-2 {
+        flex-basis: 60%;
+      }
+
+      .minigame-title {
+        font-size: 60px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .minigame-titles {
+        display: flex;
+        margin: 20px 0 40px;
+      }
+
+      .minigame-links {
+        margin-right: 50px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .minigame-links::after {
+        content: '';
+        width: 0;
+        height: 3px;
+        background: #ff004f;
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        transition: 0.5s;
+      }
+
+      .minigame-links.active-link::after {
+        width: 50%;
+      }
+
+      .minigame-contents ul li {
+        list-style: none;
+        margin: 10px 0;
+      }
+
+      .minigame-contents ul li span {
+        color: #ff004f;
+        font-size: 14px;
+      }
+
+      .minigame-contents {
+        display: none;
+      }
+
+      .minigame-contents.active-tab {
+        display: block;
+      }
+
+
+
+  </style>
+

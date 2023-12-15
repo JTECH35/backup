@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drowsense</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  </head>
+
+  <body>
+
+
+    <div id="header">
+      <div class="container">
+        <nav>
+          <img src="../static/assets/logo.png" class="logo">
+          <ul>
+            <li><a href="{{url_for('home2')}}">Home</a></li>
+              <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="{{url_for('minigame')}}">Minigame</a></li>
+            <li><a href="{{url_for('login')}}">Log Out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+<!-----------------------------minigames----------------------------->
+    <div id="minigames">
+      <div class="container">
+        <div class="row">
+          <div class="minigame-col-1">
+            <!-- Replace the image source with your minigame image -->
+            <img src="../static/assets/questionmark.png" alt="">
+          </div>
+          <div class="minigame-col-2">
+            <h1 class="minigame-title">Divide And Conquer Guessing Game</h1>
+              <br>
+          </div>
+            <p>Guess a number between 1 and 100</p>
+
+    <form method="post" action="{{ url_for('guessinggame') }}">
+        <label for="guess">Your Guess:</label>
+        <input type="number" id="guess" name="guess" required>
+        <button type="submit">Submit Guess</button>
+    </form>
+    <br>
+    {% if result_message %}
+        <p>{{ result_message }}</p>
+    {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+
+  <script>
+
+
+  </script>
+  </body>
+  </html>
+
+
+
+
+<!----------------------------main----------------------------->
+
+  <style type="text/css">
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+    }
+
+
+
+    .container {
+      padding: 10px 10%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 140px;
+
+      }
+
+
+  .eye-container {
+      text-align: center;
+    }
+  .eye {
+      width: 500px;
+
+
+    }
+    nav ul li {
+      display: inline-block;
+      list-style: none;
+      margin: 10px 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      width: 0%;
+      height: 3px;
+      background: #ff004f;
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      transition: 0.5s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .system-description {
+      margin-top: 50px;
+    }
+
+    .system-description h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #ff004f;
+    }
+
+    .system-description p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+<!--------------------------minigame----------------------------->
+   .minigame-col-1 {
+        flex-basis: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+    .minigame-col-1 img {
+      width: 20%; /* You can adjust the width as needed */
+      max-width: 100%; /* Ensure the image does not exceed its original size */
+      height: auto; /* Maintain the aspect ratio */
+      border-radius: 15px;
+      }
+
+  </style>
+

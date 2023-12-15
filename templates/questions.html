@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drowsense</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}">
+   <script>
+    function findAnswer() {
+      import queryString from 'query-string'; // import the queryString class
+        t = document.getElementById("text").value;
+        q = document.getElementById("question").value;
+        fetch('/qafinder', {
+  method: 'post',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
+  },
+  body: queryString.stringify({question: q,text: t})
+}).then(res => res.text())
+  .then(res => console.log(res));
+
+    }
+
+  </script>
+
+
+</head>
+
+<body>
+<div id="header">
+      <div class="container">
+        <nav>
+          <img src="../static/assets/logo.png" class="logo">
+          <ul>
+            <li><a href="{{url_for('home2')}}">Home</a></li>
+              <li><a href="{{url_for('minigame')}}">Minigames</a></li>
+              <li><a href="{{url_for('about')}}">About</a></li>
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+
+  <br>
+
+    <article class="message">
+
+      <form action="/qafinder" method="post">
+      <div class="message-body">
+        <textarea class="textarea is-success" placeholder="Text Input .." id="text" name="text" required  >{{ text }}</textarea>
+        <br><br>
+        <input class="input is-success" id="question" type="text" placeholder="Question" name="question" required >
+
+      </div>
+
+    </article>
+
+    <div class="button-container">
+    <button class="button is-success" onclick="findAnswer()">Find Answer</button>
+    </div>
+   </form>
+    <div class="box" style="color: #fff;">
+      {{ answer }}
+    </div>
+
+
+</body>
+
+</html>
+
+
+<!----------------------------main----------------------------->
+
+  <style type="text/css">
+
+      html, body {
+        overflow-y: hidden;
+      }
+
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #00000;
+      color: #fff;
+
+    }
+
+
+
+    .container {
+      padding: 10px 10%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 140px;
+
+      }
+
+
+  .eye-container {
+      text-align: center;
+    }
+  .eye {
+      width: 500px;
+
+
+    }
+    nav ul li {
+      display: inline-block;
+      list-style: none;
+      margin: 10px 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      width: 0%;
+      height: 3px;
+      background: #ff004f;
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      transition: 0.5s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .system-description {
+      margin-top: 50px;
+    }
+
+    .system-description h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #ff004f;
+    }
+
+    .system-description p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+
+<!---------------------------question----------------------------->
+
+.button-container {
+  text-align: center;
+  margin-top: 20px; /* Adjust the margin-top as needed */
+}
+
+
+.button.is-success {
+  background-color: #de2a60; /* Change this to your desired color */
+  color: #fff;
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+
+  /* Center the button */
+  display: block;
+  margin: 0 auto;
+}
+
+.button.is-success:hover {
+  background-color: #e00d4c; /* Change this to your desired hover color */
+}
+
+  </style>

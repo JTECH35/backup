@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Drowsense</title>
+  <link rel="icon" href="" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+
+<body>
+  <div id="header">
+    <div class="container">
+      <nav>
+        <img src="../static/assets/logo.png" class="logo">
+        <ul>
+          <li><a href="{{url_for('home2')}}">Home</a></li>
+            <li><a href="{{url_for('minigame')}}">Minigames</a></li>
+            <li><a href="{{url_for('questions')}}">Questions</a></li>
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="system-description">
+    <div class="container">
+       <div class="eye-container">
+         <img src="../static/assets/eye.png" class="eye">
+       </div>
+
+<br> <br>
+        <h1 style="text-align: center;">About Drowsense</h1>
+      <p>
+        Welcome to Drowsense, where safety meets innovation. Our Drowsiness Detection System is a cutting-edge solution designed to prioritize road safety by detecting signs of driver drowsiness. In a world where every journey matters, Drowsense is your vigilant companion on the road, dedicated to preventing potential accidents caused by fatigue.
+      </p>
+<br> <br> <br> <br>
+
+     <h1 style="text-align: center;">How It Works</h1>
+      <p>
+        Using advanced technology, our system constantly monitors driver behavior in real-time. By analyzing key indicators, such as eye closure and mouth opening, Drowsense identifies signs of drowsiness and issues timely alerts to the driver. Our goal is to enhance your driving experience by ensuring you stay alert and focused, especially during long journeys or monotonous driving conditions.
+      </p>
+
+      <br> <br> <br> <br>
+        <h1 style="text-align: center;">Commitment to Safety</h1>
+      <p>
+        Whether you're a professional driver or commuting for daily activities, Drowsense is committed to providing a safer driving environment. We understand the importance of staying vigilant on the road, and our system is designed to be a reliable safety net, helping you arrive at your destination safely.
+      </p>
+
+      <br> <br> <br> <br>
+      <h1 style="text-align: center;">Features and Capabilities</h1>
+      <p>
+        Explore the various features and capabilities that make Drowsense a leader in drowsiness detection technology. From real-time alerts to user-friendly interfaces, we prioritize functionality and ease of use to make your driving experience not only safer but also more enjoyable.
+</p>
+
+      <p>
+Join us on the journey towards safer roads. Drowsense – your safety, our priority.
+      </p>
+
+
+    </div>
+  </div>
+
+
+<!-----------------------------about----------------------------->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <img src="../static/assets/user.png" alt="">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About the Researchers</h1>
+
+
+                   <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Romeo</p>
+                    <p class="tab-links" onclick="opentab('experience')">Joemari</p>
+                    <p class="tab-links" onclick="opentab('education')">Marvic</p>
+                   </div>
+                   <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>Who is Romeo?</span><br>Hello! I'm Romeo, and I'm delighted to share a bit about myself. I believe that life is an incredible journey, and every experience, no matter how big or small, contributes to who we are. Also, I'm excited to share a glimpse into the world of an INFJ personality type.</li>
+                        <li><span>School</span><br>Haven of Wisdom Academy</li>
+                        <li><span>Hobbies</span><br>Valorant</li>
+                    </ul>
+                   </div>
+                   <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>Who is Joemari?</span><br>Hello! I'm Joemari, I love playing instrument, relaxation, and I'm always up for discovering new things. Excited to connect!</li>
+                        <li><span>School</span><br>Divine Light Academy</li>
+                        <li><span>Hobbies</span><br>Valorant</li>
+                    </ul>
+                   </div>
+                   <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>Who is Marvic?</span><br>Hello! I'm Marvic, I am passionate about editing and games!, I'm all about continuous learning and meaningful connections. Let's chat!</li>
+                        <li><span>School</span><br>Cavite School of Life</li>
+                        <li><span>Hobbies</span><br>Apex Legends</li>
+                    </ul>
+                   </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+<style type="text/css">
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background: #080808;
+    color: #fff;
+  }
+
+
+
+  .container {
+    padding: 10px 10%;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    width: 140px;
+
+
+  }
+
+.eye-container {
+    text-align: center;
+  }
+.eye {
+    width: 500px;
+
+
+  }
+  nav ul li {
+    display: inline-block;
+    list-style: none;
+    margin: 10px 20px;
+  }
+
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+  }
+
+  nav ul li a::after {
+    content: '';
+    width: 0%;
+    height: 3px;
+    background: #ff004f;
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    transition: 0.5s;
+  }
+
+  nav ul li a:hover::after {
+    width: 100%;
+  }
+
+  .system-description {
+    margin-top: 50px;
+  }
+
+  .system-description h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #ff004f;
+  }
+
+  .system-description p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+
+
+  	/*-----------------------------ABOUT-----------------------------*/
+
+#about{
+    padding: 100px 0;
+    color: #ababab;
+
+}
+.row{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.about-col-1{
+    flex-basis: 35%;
+}
+
+.about-col-1 img{
+    width: 100%;
+    border-radius: 15px;
+}
+
+.about-col-2{
+    flex-basis:60%;
+
+}
+
+.sub-title{
+    font-size: 60px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.tab-titles{
+    display: flex;
+    margin: 20px 0 40px;
+}
+.tab-links{
+    margin-right: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+}
+.tab-links::after{
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #ff004f;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    transition: 0.5s;
+}
+
+.tab-links.active-link::after{
+    width: 50%;
+}
+
+.tab-contents ul li{
+    list-style: none;
+    margin: 10px 0;
+}
+.tab-contents ul li span{
+    color: #ff004f;
+    font-size: 14px;
+}
+.tab-contents{
+    display: none;
+}
+.tab-contents.active-tab{
+    display: block;
+}
+
+
+
+</style>
+

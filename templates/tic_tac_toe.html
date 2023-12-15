@@ -1,0 +1,207 @@
+<!-- templates/tic_tac_toe.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drowsense</title>
+
+    <!-- Link Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+
+
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+        }
+
+        th, td {
+            font-size: 24px;
+        }
+
+        .winner {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .tie {
+            font-size: 24px;
+            color: blue;
+            margin-top: 10px;
+        }
+
+        .square-cell {
+            width: 100px; /* Adjust the width as needed */
+            height: 200px; /* Equal to the width to make it square */
+            text-align: center; /* Center text horizontally */
+            vertical-align: middle; /* Center text vertically */
+
+        }
+
+        .btn-lg {
+            font-size: 80px; /* Adjust the font size as needed */
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div id="header">
+      <div class="container">
+        <nav>
+          <img src="../static/assets/logo.png" class="logo">
+          <ul>
+            <li><a href="{{url_for('home2')}}">Home</a></li>
+              <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="{{url_for('minigame')}}">Minigame</a></li>
+            <li><a href="{{url_for('login')}}">Log Out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+<!--------------------------------TICTACTOE---------------------------------------------->
+    <div class="container">
+        <h1 class="mt-5">Tic Tac Toe</h1>
+
+        <table class="table table-bordered mt-4">
+            <tr>
+                {% for cell in board %}
+                    <td class="square-cell"><a href="{{ url_for('make_move', position=loop.index0) }}" class="btn btn-light btn-lg">{{ cell }}</a></td>
+                    {% if loop.index % 3 == 0 %}
+                        </tr><tr>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+
+        <div class="winner mt-3">
+            {% if winner and not tie %}
+                <div class="alert alert-success" role="alert">
+                    Winner: {{ winner }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="tie mt-3">
+            {% if tie %}
+                <div class="alert alert-info" role="alert">
+                    It's a Tie!
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ url_for('play_again') }}" class="btn btn-primary">Play Again</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<!----------------------------main----------------------------->
+
+  <style type="text/css">
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+    }
+
+
+
+    .container {
+      padding: 10px 10%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 140px;
+
+      }
+
+
+  .eye-container {
+      text-align: center;
+    }
+  .eye {
+      width: 500px;
+
+
+    }
+    nav ul li {
+      display: inline-block;
+      list-style: none;
+      margin: 10px 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      width: 0%;
+      height: 3px;
+      background: #ff004f;
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      transition: 0.5s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .system-description {
+      margin-top: 50px;
+    }
+
+    .system-description h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #ff004f;
+    }
+
+    .system-description p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+
+<!----------------------------TTT----------------------------->
+
+      .table{
+      bs-table-bg: blue
+
+
+
+      }
+  </style>
