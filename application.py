@@ -1,42 +1,38 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, redirect, url_for, render_template, request
 import os
 import random
-from index import d_dtcn
 
-import torch
-from transformers import BertForQuestionAnswering
-from transformers import BertTokenizer
-import requests
+
 
 secret_key = str(os.urandom(24))
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-app.config['TESTING'] = True
-app.config['DEBUG'] = True
-app.config['FLASK_ENV'] = 'development'
-app.config['SECRET_KEY'] = secret_key
-app.config['DEBUG'] = True
+application.config['TESTING'] = True
+application.config['DEBUG'] = True
+application.config['FLASK_ENV'] = 'development'
+application.config['SECRET_KEY'] = secret_key
+application.config['DEBUG'] = True
 
 
 
 
 
 # Defining the home page of our site        #views
-@app.route("/", methods=['GET', 'POST'])
+@application.route("/", methods=['GET', 'POST'])
 def first():
     return render_template("home2.html")
 
-@app.route("/home2", methods=['GET', 'POST'])
+@application.route("/home2", methods=['GET', 'POST'])
 def home2():
     return render_template("home2.html")
 
-@app.route('/signup')
+@application.route('/signup')
 def signup():
     return render_template('signup.html')
 
 
-@app.route("/login", methods=['GET', 'POST'])
+@application.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # Check login credentials here
@@ -44,7 +40,7 @@ def login():
         return redirect(url_for('home2'))
     return render_template("login.html")
 
-@app.route("/about", methods=['GET', 'POST'])
+@application.route("/about", methods=['GET', 'POST'])
 def about():
     return render_template("about.html")
 
@@ -53,7 +49,7 @@ def run_webcam():
 
 
 
-@app.route("/start", methods=['GET', 'POST'])
+@application.route("/start", methods=['GET', 'POST'])
 def index():
     print(request.method)
     if request.method == 'POST':
@@ -65,12 +61,12 @@ def index():
         return render_template("home2.html")
 
 
-@app.route("/minigame", methods=['GET', 'POST'])
+@application.route("/minigame", methods=['GET', 'POST'])
 def minigame():
     return render_template("minigame.html")
 
 
-@app.route("/questions", methods=['GET', 'POST'])
+@application.route("/questions", methods=['GET', 'POST'])
 def questions():
     return render_template("questions.html")
 
@@ -88,7 +84,7 @@ def generate_secret_number():
 secret_number = generate_secret_number()
 
 
-@app.route("/guessinggame", methods=["GET", "POST"])
+@application.route("/guessinggame", methods=["GET", "POST"])
 def guessinggame():
     global secret_number  # Make sure to use the global variable
 
@@ -161,7 +157,7 @@ def reset_game():
     board = [''] * 9
     current_player = user_symbol
 
-@app.route('/tictacgame')
+@application.route('/tictacgame')
 def tic_tac_toe_game():
     winner = None
     if check_winner(board, user_symbol):
@@ -173,7 +169,7 @@ def tic_tac_toe_game():
 
     return render_template('tic_tac_toe.html', board=board, winner=winner, tie=check_tie(board))
 
-@app.route('/move/<int:position>')
+@application.route('/move/<int:position>')
 def make_move(position):
     global current_player
     global board
@@ -194,86 +190,13 @@ def make_move(position):
 
     return render_template('tic_tac_toe.html', board=board, winner=None, tie=check_tie(board))
 
-@app.route('/play_again')
+@application.route('/play_again')
 def play_again():
     reset_game()
     return redirect(url_for('tic_tac_toe_game'))
 
 
-
-
-# BERT
-
-def question_answer(question, text, max_chunk_size=512, overlap=50):
-    # Set the maximum chunk size and overlap size
-    max_chunk_size = 512  # Set the maximum chunk size based on your model's limit
-    overlap = 50  # Set the overlap size between chunks
-
-    # Tokenize question and text
-    input_ids_question = tokenizer.encode(question)
-    input_ids_text = tokenizer.encode(text)
-
-    # Combine question and text tokens
-    input_ids = input_ids_question + input_ids_text
-
-    # Initialize start index for sliding window
-    start_idx = 0
-    all_answers = []
-
-    while start_idx < len(input_ids):
-        # Calculate the end index for the current chunk
-        end_idx = start_idx + max_chunk_size
-
-        # Ensure the end index doesn't exceed the length of input_ids
-        end_idx = min(end_idx, len(input_ids))
-
-        # Get the chunk of tokens for the current window
-        chunk = input_ids[start_idx:end_idx]
-
-        # Ensure both input tensors have the same size at dimension 1
-        chunk += [tokenizer.pad_token_id] * (max_chunk_size - len(chunk))
-
-        # List of 0s and 1s for segment embeddings
-        segment_ids = [0] * len(input_ids_question) + [1] * (max_chunk_size - len(input_ids_question))
-
-        # Model output using input_ids and segment_ids
-        output = model(torch.tensor([chunk]), token_type_ids=torch.tensor([segment_ids]))
-
-        # Reconstructing the answer
-        answer_start = torch.argmax(output.start_logits)
-        answer_end = torch.argmax(output.end_logits)
-
-        # Extract answer tokens from the chunk, excluding padding tokens
-        answer_tokens = chunk[answer_start:answer_end + 1]
-        answer_tokens = [t for t in answer_tokens if t != tokenizer.pad_token_id]
-
-        # Convert answer tokens to string
-        answer = tokenizer.convert_tokens_to_string(tokenizer.convert_ids_to_tokens(answer_tokens))
-
-        all_answers.append(answer)
-
-        # Move the window forward with the specified overlap
-        start_idx += max_chunk_size - overlap
-
-    # Combine answers from different chunks
-    final_answer = ' '.join(all_answers)
-
-    if not final_answer:
-        final_answer = "Unable to find the answer to your question."
-
-    return "Answer: " + final_answer.capitalize()
-
-@app.route('/qafinder', methods=['post'])
-def answer_master():
-    question = request.form['question']
-    text = request.form['text']
-    answer = question_answer(question, text)
-    return render_template('questions.html', answer=answer, text=text)
-
-
 if __name__ == "__main__":
-    model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-    app.run()
+    application.run()
 
 
