@@ -6,33 +6,33 @@ import random
 
 secret_key = str(os.urandom(24))
 
-application = Flask(__name__)
+app = Flask(__name__)
 
-application.config['TESTING'] = True
-application.config['DEBUG'] = True
-application.config['FLASK_ENV'] = 'development'
-application.config['SECRET_KEY'] = secret_key
-application.config['DEBUG'] = True
+app.config['TESTING'] = True
+app.config['DEBUG'] = True
+app.config['FLASK_ENV'] = 'development'
+app.config['SECRET_KEY'] = secret_key
+app.config['DEBUG'] = True
 
 
 
 
 
 # Defining the home page of our site        #views
-@application.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def first():
     return render_template("home2.html")
 
-@application.route("/home2", methods=['GET', 'POST'])
+@app.route("/home2", methods=['GET', 'POST'])
 def home2():
     return render_template("home2.html")
 
-@application.route('/signup')
+@app.route('/signup')
 def signup():
     return render_template('signup.html')
 
 
-@application.route("/login", methods=['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # Check login credentials here
@@ -40,7 +40,7 @@ def login():
         return redirect(url_for('home2'))
     return render_template("login.html")
 
-@application.route("/about", methods=['GET', 'POST'])
+@app.route("/about", methods=['GET', 'POST'])
 def about():
     return render_template("about.html")
 
@@ -49,7 +49,7 @@ def run_webcam():
 
 
 
-@application.route("/start", methods=['GET', 'POST'])
+@app.route("/start", methods=['GET', 'POST'])
 def index():
     print(request.method)
     if request.method == 'POST':
@@ -61,12 +61,12 @@ def index():
         return render_template("home2.html")
 
 
-@application.route("/minigame", methods=['GET', 'POST'])
+@app.route("/minigame", methods=['GET', 'POST'])
 def minigame():
     return render_template("minigame.html")
 
 
-@application.route("/questions", methods=['GET', 'POST'])
+@app.route("/questions", methods=['GET', 'POST'])
 def questions():
     return render_template("questions.html")
 
@@ -84,7 +84,7 @@ def generate_secret_number():
 secret_number = generate_secret_number()
 
 
-@application.route("/guessinggame", methods=["GET", "POST"])
+@app.route("/guessinggame", methods=["GET", "POST"])
 def guessinggame():
     global secret_number  # Make sure to use the global variable
 
@@ -157,7 +157,7 @@ def reset_game():
     board = [''] * 9
     current_player = user_symbol
 
-@application.route('/tictacgame')
+@app.route('/tictacgame')
 def tic_tac_toe_game():
     winner = None
     if check_winner(board, user_symbol):
@@ -169,7 +169,7 @@ def tic_tac_toe_game():
 
     return render_template('tic_tac_toe.html', board=board, winner=winner, tie=check_tie(board))
 
-@application.route('/move/<int:position>')
+@app.route('/move/<int:position>')
 def make_move(position):
     global current_player
     global board
@@ -190,13 +190,13 @@ def make_move(position):
 
     return render_template('tic_tac_toe.html', board=board, winner=None, tie=check_tie(board))
 
-@application.route('/play_again')
+@app.route('/play_again')
 def play_again():
     reset_game()
     return redirect(url_for('tic_tac_toe_game'))
 
 
 if __name__ == "__main__":
-    application.run()
+    app.run()
 
 
