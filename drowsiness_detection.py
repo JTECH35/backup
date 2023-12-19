@@ -54,47 +54,47 @@ def assure_path_exists(path):
 
 
 # Lists to store eye and mouth aspect ratios along with timestamps
-ear_list = []
-total_ear = []
-mar_list = []
-total_mar = []
-ts = []
-total_ts = []
+# ear_list = []
+# total_ear = []
+# mar_list = []
+# total_mar = []
+# ts = []
+# total_ts = []
 
 
 
 
 # Argument parsing
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--shape_predictor", required=True, help="path to dlib's facial landmark predictor")
-ap.add_argument("-r", "--picamera", type=int, default=-1, help="whether raspberry pi camera shall be used or not")
-args = vars(ap.parse_args())
+#ap = argparse.ArgumentParser()
+#ap.add_argument("-p", "--shape_predictor", required=True, help="path to dlib's facial landmark predictor")
+#ap.add_argument("-r", "--picamera", type=int, default=-1, help="whether raspberry pi camera shall be used or not")
+#args = vars(ap.parse_args())
 
 
 # Constants for eye and mouth aspect ratios, blink frames, and MAR threshold
-EAR_THRESHOLD = 0.27
-CONSECUTIVE_FRAMES = 10
-MAR_THRESHOLD = 25
+#EAR_THRESHOLD = 0.27
+#CONSECUTIVE_FRAMES = 10
+#MAR_THRESHOLD = 25
 
 # Initialize counters
-TOTAL_BLINKS = 0
-BLINK_COUNT = 0
-FRAME_COUNT = 0
-CLOSED_EYES_FRAME = 3
+#TOTAL_BLINKS = 0
+#BLINK_COUNT = 0
+#FRAME_COUNT = 0
+#CLOSED_EYES_FRAME = 3
 
 # Load face detector and predictor models
 print("[INFO]Loading the predictor.....")
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(args["shape_predictor"])
+#detector = dlib.get_frontal_face_detector()
+#predictor = dlib.shape_predictor(args["shape_predictor"])
 
 # Indices for facial landmarks
-(lstart, lend) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
-(rstart, rend) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
-(mstart, mend) = face_utils.FACIAL_LANDMARKS_IDXS["mouth"]
+#(lstart, lend) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
+#(rstart, rend) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
+#(mstart, mend) = face_utils.FACIAL_LANDMARKS_IDXS["mouth"]
 
 # Video stream setup
 print("[INFO]Loading Camera.....")
-vs = VideoStream(usePiCamera=args["picamera"] > 0).start()
+vs = VideoStream().start()
 vs.stream.set(cv2.CAP_PROP_FPS, 60)
 
 # Ensure dataset directory exists
@@ -150,77 +150,77 @@ while True:
             cv2.rectangle(frame, (x1, y1), (x2, y2), myColor, 3)
 
     # Detect faces using dlib
-    rects = detector(blurred, 1)
+    #rects = detector(blurred, 1)
 
     # Process each detected face
-    for (i, rect) in enumerate(rects):
-        shape = predictor(blurred, rect)
+    #for (i, rect) in enumerate(rects):
+       # shape = predictor(blurred, rect)
         # Convert it to a (68, 2) size numpy array
-        shape = face_utils.shape_to_np(shape)
+       # shape = face_utils.shape_to_np(shape)
 
 
-        leftEye = shape[lstart:lend]
-        rightEye = shape[rstart:rend]
-        mouth = shape[mstart:mend]
+      #  leftEye = shape[lstart:lend]
+       # rightEye = shape[rstart:rend]
+       # mouth = shape[mstart:mend]
 
-        leftEAR = eye_aspect_ratio(leftEye)
-        rightEAR = eye_aspect_ratio(rightEye)
-        EAR = (leftEAR + rightEAR) / 2.0
+     #   leftEAR = eye_aspect_ratio(leftEye)
+     #   rightEAR = eye_aspect_ratio(rightEye)
+     #   EAR = (leftEAR + rightEAR) / 2.0
 
         # Record eye aspect ratio and timestamp
-        ear_list.append(EAR)
-        ts.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
+      #  ear_list.append(EAR)
+      #  ts.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
         # Compute the convex hull for both the eyes and then visualize it
-        leftEyeHull = cv2.convexHull(leftEye)
-        rightEyeHull = cv2.convexHull(rightEye)
-        mouthHull = cv2.convexHull(mouth)
+      #  leftEyeHull = cv2.convexHull(leftEye)
+       # rightEyeHull = cv2.convexHull(rightEye)
+        #mouthHull = cv2.convexHull(mouth)
 
         # Draw facial landmarks(circles)
-        for (x, y) in shape[lstart:lend]:
-            cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
+        #for (x, y) in shape[lstart:lend]:
+         #   cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
 
-        for (x, y) in shape[rstart:rend]:
-            cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
+       # for (x, y) in shape[rstart:rend]:
+        #    cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
 
-        for (x, y) in shape[mstart:mend]:
-            cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
+        #for (x, y) in shape[mstart:mend]:
+         #   cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
 
         # Compute and record mouth aspect ratio
-        MAR = mouth_aspect_ratio(mouth)
-        mar_list.append(MAR / 10)
+#        MAR = mouth_aspect_ratio(mouth)
+ #       mar_list.append(MAR / 10)
 
 
 
         # Check if EAR < EAR_THRESHOLD, if so then it indicates that a blink is taking place
         # Thus, count the number of frames for which the eye remains closed
-        if EAR < EAR_THRESHOLD:
-            FRAME_COUNT += 1
-            BLINK_COUNT += 1
+  #      if EAR < EAR_THRESHOLD:
+   #         FRAME_COUNT += 1
+    #        BLINK_COUNT += 1
             # Draw facial contours
-            cv2.drawContours(frame, [leftEyeHull], -1, (0, 0, 255), 1)
-            cv2.drawContours(frame, [rightEyeHull], -1, (0, 0, 255), 1)
+     #       cv2.drawContours(frame, [leftEyeHull], -1, (0, 0, 255), 1)
+      #      cv2.drawContours(frame, [rightEyeHull], -1, (0, 0, 255), 1)
 
             # If consecutive closed eyes frames exceed the threshold, trigger an alert
-            if FRAME_COUNT >= CONSECUTIVE_FRAMES:
-                count_sleep += 1
-                if alarm_status == False:
+       #     if FRAME_COUNT >= CONSECUTIVE_FRAMES:
+        #        count_sleep += 1
+         #       if alarm_status == False:
                     # Set the alarm status to True to avoid repeated triggering
-                    alarm_status = True
-                    t = Thread(target=alarm, args=('please wake up',))
-                    t.deamon = True
-                    t.start()
-                cv2.putText(frame, "DROWSINESS ALERT!", (270, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        else:
+          #          alarm_status = True
+           #         t = Thread(target=alarm, args=('please wake up',))
+            #        t.deamon = True
+             #       t.start()
+            #    cv2.putText(frame, "DROWSINESS ALERT!", (270, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+       # else:
             # If eyes are not closed, reset the consecutive frame count and alarm status
-            FRAME_COUNT = 0
-            alarm_status = False
+        #    FRAME_COUNT = 0
+         #   alarm_status = False
 
             # Check if the number of blinks exceeds a certain threshold
-            if BLINK_COUNT >= CLOSED_EYES_FRAME:
+          #  if BLINK_COUNT >= CLOSED_EYES_FRAME:
                 # Increment the total blink count
-                TOTAL_BLINKS += 1
+           #     TOTAL_BLINKS += 1
             # Reset the blink count for the current sequence
-            BLINK_COUNT = 0
+           # BLINK_COUNT = 0
 
 
 
@@ -232,20 +232,20 @@ while True:
 #### COMMENTED ####
 
         # Check for yawning
-        if MAR > MAR_THRESHOLD:
-            count_yawn += 1
-            cv2.drawContours(frame, [mouth], -1, (0, 0, 255), 1)
-            cv2.putText(frame, "DROWSINESS ALERT!", (270, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+      #  if MAR > MAR_THRESHOLD:
+       #     count_yawn += 1
+        #    cv2.drawContours(frame, [mouth], -1, (0, 0, 255), 1)
+         #   cv2.putText(frame, "DROWSINESS ALERT!", (270, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
 
             #Trigger yawn alert
-            if alarm_status2 == False and saying == False:
-                alarm_status2 = True
-                t = Thread(target=alarm, args=('please take some fresh air',))
-                t.deamon = True
-                t.start()
-        else:
-            alarm_status2 = False
+         #   if alarm_status2 == False and saying == False:
+          #      alarm_status2 = True
+           #     t = Thread(target=alarm, args=('please take some fresh air',))
+            #    t.deamon = True
+             #   t.start()
+        #else:
+         #   alarm_status2 = False
 
     # display the frame
     cv2.imshow("Output", frame)
